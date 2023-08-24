@@ -13,8 +13,11 @@ require("dotenv").config();
 // * Creates and stores a wrapper for the OpenAI package along with basic configuration
 const model = new OpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
-  temperature: 0.2,
+  temperature: 0.9,
   model: "gpt-3.5-turbo",
+  frequency_penalty: -0.5, // Adjust this value to your preference
+  presence_penalty: -0.5,
+  use_cache: false,
 });
 
 console.log({ model });
@@ -23,18 +26,16 @@ console.log({ model });
 const promptFunc = async (input) => {
     // ! This array holds elements to help guide the bot. Could be a key player in prompt engineering
     const parser = StructuredOutputParser.fromNamesAndDescriptions({
-        question: "Name of the author being",
-        clearList: "If asked for list, include list (1- 2- 3- 4- 5- ) to answer question",
-        philosophy: "Detailed thoughts or quotes from the philosopher",
-        quotes: "General response, if target is not an individual",
-        citation: "Citation of given information for research purposes"
+      question: "Hello",
+      answer: "hi",
+      quotes: ""
+        // citation: "Citation of given information for research purposes"
     });
   
     const formatInstructions = parser.getFormatInstructions();
   
     const prompt = new PromptTemplate({
-      template:
-        "You are a philosopher phd, who loves interacting with newbies. You are wise and knowledgable, and love all flavours of philophy. You dont bring up the same philosopher twice in the same sentance. you are clear, kind, and wise. \n{format_instructions}\n{question}",
+      template: "Please answer the following question in the style of the philosopher Socrates. Provide detailed thoughts or quotes from Socrates, and include any relevant quotes regarding the answer. Avoid repeating the same ideas and strive for a unique and thoughtful response each time.",
       inputVariables: ["question"],
       partialVariables: { format_instructions: formatInstructions },
     });
