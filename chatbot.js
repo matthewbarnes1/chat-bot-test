@@ -23,11 +23,11 @@ console.log({ model });
 const promptFunc = async (input) => {
     // ! This array holds elements to help guide the bot. Could be a key player in prompt engineering
     const parser = StructuredOutputParser.fromNamesAndDescriptions({
-        philosopher: "Name of the philosopher being discussed",
+        question: "Name of the author being",
         clearList: "If asked for list, include list (1- 2- 3- 4- 5- ) to answer question",
         philosophy: "Detailed thoughts or quotes from the philosopher",
         quotes: "General response, if target is not an individual",
-        quotes: "Citation of given information for research purposes"
+        citation: "Citation of given information for research purposes"
     });
   
     const formatInstructions = parser.getFormatInstructions();
